@@ -1,16 +1,51 @@
-<!-- templates/files.html -->
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-    <h2>Seznam nahraných souborů</h2>
+<div class="container">
+    <div class="row">
+        <h2>Seznam nahraných souborů</h2>
 
-    <a href="{% url 'upload_file' %}" class="btn btn-primary">Přidat soubor</a>
+        <!-- Tlačítko pro přidání nového souboru -->
+        <div class="col-12 mb-4">
+            <a href="{% url 'upload_file' %}" class="btn btn-success">Přidat nový soubor</a>
+        </div>
 
-    <ul>
         {% for file in files %}
-            <li>{{ file.name }} - <a href="{{ file.file.url }}" download>Stáhnout</a></li>
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <!-- Obrázek souboru -->
+                    <img src="{% if file.image %}{{ file.image.url }}{% else %}{% static 'images/default.jpg' %}{% endif %}" class="card-img-top" alt="Obrázek souboru" style="height: 200px; object-fit: cover;">
+
+                    <div class="card-body">
+                        <h5 class="card-title">{{ file.name }}</h5>
+
+                        <!-- Formát souboru a přítomnost Gcode -->
+                        <p class="card-text">
+                            <small class="text-muted">Formát:
+                                {% if file.is_stl %}
+                                    .STL
+                                {% elif file.is_3mf %}
+                                    .3MF
+                                {% else %}
+                                    Neznámý formát
+                                {% endif %}
+                            </small><br>
+                            {% if file.gcode_file %}
+                                <small class="text-success">Obsahuje Gcode</small>
+                            {% else %}
+                                <small class="text-danger">Bez Gcode</small>
+                            {% endif %}
+                        </p>
+
+                        <!-- Odkaz na detail souboru -->
+                        <a href="{% url 'file_detail' file.id %}" class="btn btn-primary">Zobrazit detaily</a>
+                    </div>
+                </div>
+            </div>
         {% empty %}
-            <li>Žádné soubory k zobrazení.</li>
+            <p>Žádné soubory nebyly nahrány.</p>
         {% endfor %}
-    </ul>
+    </div>
+</div>
 {% endblock %}

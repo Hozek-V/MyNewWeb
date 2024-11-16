@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.template import loader
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Member, File
 from .forms import FileUploadForm
 
@@ -31,3 +31,7 @@ def upload_file(request):
   else:
     form = FileUploadForm()
   return render(request, 'upload_file.html', {'form': form})
+
+def file_detail(request, id):
+  file = get_object_or_404(File, id=id)
+  return render(request, 'file_detail.html', {'file': file})

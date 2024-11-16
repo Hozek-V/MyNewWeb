@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <h2>Detaily souboru: {{ file.name }}</h2>
+        
+        <div class="col-12">
+            <!-- Obrázek souboru -->
+            <img src="{% if file.image %}{{ file.image.url }}{% else %}{% static 'images/default.jpg' %}{% endif %}" alt="Obrázek souboru" class="img-fluid">
+        </div>
+        
+        <div class="col-12 mt-4">
+            <p><strong>Formát souboru:</strong> 
+                {% if file.is_stl %}
+                    .STL
+                {% elif file.is_3mf %}
+                    .3MF
+                {% else %}
+                    Neznámý formát
+                {% endif %}
+            </p>
+            <p><strong>Typ souboru:</strong> {{ file.stl_file.name }}</p>
+            <p><strong>Gcode soubor:</strong> 
+                {% if file.gcode_file %}
+                    <span class="text-success">Ano</span>
+                {% else %}
+                    <span class="text-danger">Ne</span>
+                {% endif %}
+            </p>
+            <p><strong>Jméno tiskárny:</strong> {{ file.printer_name }}</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

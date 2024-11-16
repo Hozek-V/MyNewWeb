@@ -1,55 +1,70 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h2>Nahrát soubor pro 3D tisk</h2>
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Přidat nový soubor</h4>
+                </div>
+                <div class="card-body">
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
 
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
+                        <!-- Nahrání názvu modelu -->
+                        <div class="mb-3">
+                            <label for="id_name" class="form-label">Název modelu</label>
+                            {{ form.name }}
+                        </div>
 
-        <!-- Název souboru -->
-        <label for="name">Název modelu</label>
-        <input type="text" name="name" id="name" required>
+                        <!-- Nahrání 3D modelu (STL nebo 3MF) -->
+                        <div class="mb-3">
+                            <label for="id_stl_file" class="form-label">3D Model (STL nebo 3MF)</label>
+                            {{ form.stl_file }}
+                        </div>
 
-        <!-- Nahrání 3D modelu (STL nebo 3MF) -->
-        <label for="stl_file">Nahrát 3D model (STL nebo 3MF)</label>
-        <input type="file" name="stl_file" id="stl_file" accept=".stl, .3mf">
+                        <!-- Volitelné pole pro obrázek -->
+                        <div class="mb-3">
+                            <label for="id_image" class="form-label">Obrázek modelu (volitelné)</label>
+                            {{ form.image }}
+                        </div>
 
-        <!-- Nahrání GCODE souboru -->
-        <label for="gcode_file">Nahrát GCODE soubor</label>
-        <input type="file" name="gcode_file" id="gcode_file" accept=".gcode">
+                        <!-- Volitelné pole pro Gcode -->
+                        <div class="mb-3">
+                            <label for="id_gcode_file" class="form-label">Gcode (volitelné)</label>
+                            {{ form.gcode_file }}
+                        </div>
 
-        <!-- Volitelné pole pro obrázek -->
-        <label for="image">Nahrát obrázek modelu (volitelné)</label>
-        <input type="file" name="image" id="image" accept="image/*">
+                        <!-- Dynamické zobrazení pole pro název tiskárny, pokud je nahrán Gcode -->
+                        <div class="mb-3" id="printer-name-field" style="display: none;">
+                            <label for="id_printer_name" class="form-label">Název 3D tiskárny</label>
+                            {{ form.printer_name }}
+                        </div>
 
-        <!-- Název tiskárny (pouze pokud je nahrán GCODE soubor) -->
-        <div id="printer-name-field" style="display: none;">
-            <label for="printer_name">Název 3D tiskárny</label>
-            <input type="text" name="printer_name" id="printer_name">
+                        <!-- Tlačítko pro odeslání -->
+                        <div class="mb-3">
+                            <button type="submit" class="btn btn-primary">Přidat soubor</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
+    </div>
+</div>
 
-        <button type="submit" class="btn btn-success">Nahrát soubor</button>
-    </form>
+<script>
+    // Zobrazení pole pro název tiskárny, pokud je nahrán soubor Gcode
+    const gcodeInput = document.getElementById('id_gcode_file');
+    const printerNameField = document.getElementById('printer-name-field');
 
-    {% if form.errors %}
-        <div class="errors" style="color: red;">
-            {% for field in form %}
-                {% for error in field.errors %}
-                    <p>{{ error }}</p>
-                {% endfor %}
-            {% endfor %}
-        </div>
-    {% endif %}
+    gcodeInput.addEventListener('change', function() {
+        if (gcodeInput.files.length > 0) {
+            printerNameField.style.display = 'block';
+        } else {
+            printerNameField.style.display = 'none';
+        }
+    });
+</script>
 
-    <script>
-        // Zobrazení pole pro název tiskárny pouze pokud je nahrán GCODE soubor
-        document.getElementById('gcode_file').addEventListener('change', function(event) {
-            const printerNameField = document.getElementById('printer-name-field');
-            if (event.target.files.length > 0) {
-                printerNameField.style.display = 'block';
-            } else {
-                printerNameField.style.display = 'none';
-            }
-        });
-    </script>
 {% endblock %}

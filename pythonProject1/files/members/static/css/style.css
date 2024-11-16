@@ -1,27 +1,31 @@
-/* static/css/style.css */
+/* Globální styly */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
+    background-color: #fafafa; /* Světle šedé pozadí pro celou stránku */
 }
 
+/* Záhlaví stránky */
 header {
-    background-color: #333;
+    background-color: #6c757d; /* Jemná šedá barva pro záhlaví */
     color: white;
-    padding: 10px;
+    padding: 15px 30px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 header .logo h1 {
     margin: 0;
+    font-size: 1.8rem;
 }
 
+/* Navigační menu */
 nav {
-    background-color: #444;
-    padding: 10px;
+    background-color: #adb5bd; /* Světle šedá pro navigaci */
+    padding: 12px 30px;
 }
 
 nav ul {
@@ -31,27 +35,127 @@ nav ul {
 
 nav ul li {
     display: inline;
-    margin-right: 15px;
+    margin-right: 20px;
 }
 
 nav ul li a {
-    color: white;
+    color: #495057; /* Tmavší šedá pro texty */
     text-decoration: none;
+    font-weight: 600;
 }
 
+nav ul li a:hover {
+    color: #007bff; /* Modrý odstín při hoveru */
+}
+
+/* Patička stránky */
 footer {
-    background-color: #333;
+    background-color: #6c757d; /* Stejná jemná šedá barva pro patičku */
     color: white;
     padding: 10px;
     text-align: center;
+    margin-top: 30px;
 }
 
+/* Hlavní obsah stránky */
 main {
-    padding: 20px;
+    padding: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
+/* Styly pro formuláře a karty */
+.card {
+    border-radius: 10px;
+    border: 1px solid #dee2e6; /* Světle šedý rámeček */
+    background-color: #ffffff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.card-header {
+    background-color: #f8f9fa; /* Jemná světlá šedá pro hlavičku karty */
+    color: #495057;
+    padding: 15px;
+    font-size: 1.2rem;
+}
+
+.card-body {
+    padding: 20px;
+    background-color: #ffffff;
+}
+
+/* Vstupní pole a tlačítka */
+.form-control {
+    border-radius: 5px;
+    border: 1px solid #ced4da; /* Světle šedý rámeček pro vstupy */
+    padding: 12px;
+    font-size: 1rem;
+}
+
+.form-control:focus {
+    border-color: #007bff; /* Modrý rámeček při fokusu */
+    box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
+}
+
+.btn-primary {
+    background-color: #007bff; /* Jemně modrá pro tlačítka */
+    border-color: #007bff;
+    color: white;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3; /* Tmavší modrá při hoveru */
+    border-color: #0056b3;
+}
+
+/* Vzhled pro alerty a chybové zprávy */
+.alert-danger {
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    color: #721c24;
+}
+
+/* Tabulky */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table th, table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+table th {
+    background-color: #e9ecef; /* Světle šedé pozadí pro hlavičku tabulky */
+    color: #495057;
+}
+
+table tr:hover {
+    background-color: #f1f1f1; /* Světlý odstín při hoveru řádku */
+}
+
+/* Obrázky */
 .intro-image {
-    max-width: 100%;  /* Obrázek se přizpůsobí šířce rodičovského prvku */
-    height: auto;     /* Výška se automaticky přizpůsobí proporcím obrázku */
-    max-height: 400px; /* Maximální výška obrázku (nastavte podle potřeby) */
+    max-width: 100%;
+    height: auto;
+    max-height: 400px;
+    border-radius: 8px;
+}
+
+/* Odkazy */
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
 }
