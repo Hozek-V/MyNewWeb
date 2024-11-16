@@ -1,0 +1,43 @@
+<!-- templates/base.html -->
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Tisk - Sdílení souborů</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h1>3D Tisk</h1>
+            <!-- Můžete sem přidat logo jako obrázek -->
+        </div>
+        <div class="login">
+            {% block login %}
+            <!-- Zde se bude vykreslovat přihlášení -->
+            {% endblock %}
+        </div>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'files' %}">Soubory</a></li>
+            <li><a href="{% url 'members' %}">Členové</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        {% block content %}
+        <!-- Obsah stránky se bude vykreslovat zde -->
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2024 3D Tisk. Všechna práva vyhrazena.</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,11 @@
+<!-- templates/home.html -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <section class="intro">
+        <h2>Vítejte na platformě pro sdílení 3D souborů!</h2>
+        <p>Umožňujeme nahrávání, sdílení a stahování souborů pro 3D tisk. Připojte se k naší komunitě a začněte tisknout.</p>
+        <img src="{% static 'images/3dprinter.jpg' %}" alt="3D tiskárna" class="intro-image" />
+    </section>
+{% endblock %}

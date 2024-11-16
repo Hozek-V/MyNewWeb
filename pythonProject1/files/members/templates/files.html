@@ -1,0 +1,16 @@
+<!-- templates/files.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Seznam nahraných souborů</h2>
+
+    <a href="{% url 'upload_file' %}" class="btn btn-primary">Přidat soubor</a>
+
+    <ul>
+        {% for file in files %}
+            <li>{{ file.name }} - <a href="{{ file.file.url }}" download>Stáhnout</a></li>
+        {% empty %}
+            <li>Žádné soubory k zobrazení.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

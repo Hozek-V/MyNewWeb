@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Nahrát soubor pro 3D tisk</h2>
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <!-- Název souboru -->
+        <label for="name">Název modelu</label>
+        <input type="text" name="name" id="name" required>
+
+        <!-- Nahrání 3D modelu (STL nebo 3MF) -->
+        <label for="stl_file">Nahrát 3D model (STL nebo 3MF)</label>
+        <input type="file" name="stl_file" id="stl_file" accept=".stl, .3mf">
+
+        <!-- Nahrání GCODE souboru -->
+        <label for="gcode_file">Nahrát GCODE soubor</label>
+        <input type="file" name="gcode_file" id="gcode_file" accept=".gcode">
+
+        <!-- Volitelné pole pro obrázek -->
+        <label for="image">Nahrát obrázek modelu (volitelné)</label>
+        <input type="file" name="image" id="image" accept="image/*">
+
+        <!-- Název tiskárny (pouze pokud je nahrán GCODE soubor) -->
+        <div id="printer-name-field" style="display: none;">
+            <label for="printer_name">Název 3D tiskárny</label>
+            <input type="text" name="printer_name" id="printer_name">
+        </div>
+
+        <button type="submit" class="btn btn-success">Nahrát soubor</button>
+    </form>
+
+    {% if form.errors %}
+        <div class="errors" style="color: red;">
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <script>
+        // Zobrazení pole pro název tiskárny pouze pokud je nahrán GCODE soubor
+        document.getElementById('gcode_file').addEventListener('change', function(event) {
+            const printerNameField = document.getElementById('printer-name-field');
+            if (event.target.files.length > 0) {
+                printerNameField.style.display = 'block';
+            } else {
+                printerNameField.style.display = 'none';
+            }
+        });
+    </script>
+{% endblock %}
