@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 offset-md-2">
-            <div class="card">
-                <div class="card-header">
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-header bg-light text-dark text-center">
                     <h4>Přidat nový soubor</h4>
                 </div>
                 <div class="card-body">
@@ -13,38 +13,38 @@
                         {% csrf_token %}
 
                         <!-- Nahrání názvu modelu -->
-                        <div class="mb-3">
+                        <div class="mb-4">
                             <label for="id_name" class="form-label">Název modelu</label>
-                            {{ form.name }}
+                            <input type="text" name="name" id="id_name" class="form-control" value="{{ form.name.value }}">
                         </div>
 
                         <!-- Nahrání 3D modelu (STL nebo 3MF) -->
-                        <div class="mb-3">
+                        <div class="mb-4">
                             <label for="id_stl_file" class="form-label">3D Model (STL nebo 3MF)</label>
-                            {{ form.stl_file }}
+                            <input type="file" name="stl_file" id="id_stl_file" class="form-control">
                         </div>
 
                         <!-- Volitelné pole pro obrázek -->
-                        <div class="mb-3">
+                        <div class="mb-4">
                             <label for="id_image" class="form-label">Obrázek modelu (volitelné)</label>
-                            {{ form.image }}
+                            <input type="file" name="image" id="id_image" class="form-control">
                         </div>
 
                         <!-- Volitelné pole pro Gcode -->
-                        <div class="mb-3">
+                        <div class="mb-4">
                             <label for="id_gcode_file" class="form-label">Gcode (volitelné)</label>
-                            {{ form.gcode_file }}
+                            <input type="file" name="gcode_file" id="id_gcode_file" class="form-control">
                         </div>
 
                         <!-- Dynamické zobrazení pole pro název tiskárny, pokud je nahrán Gcode -->
-                        <div class="mb-3" id="printer-name-field" style="display: none;">
+                        <div class="mb-4" id="printer-name-field" style="display: none;">
                             <label for="id_printer_name" class="form-label">Název 3D tiskárny</label>
-                            {{ form.printer_name }}
+                            <input type="text" name="printer_name" id="id_printer_name" class="form-control">
                         </div>
 
                         <!-- Tlačítko pro odeslání -->
-                        <div class="mb-3">
-                            <button type="submit" class="btn btn-primary">Přidat soubor</button>
+                        <div class="d-grid gap-2 mb-4">
+                            <button type="submit" class="btn btn-primary btn-lg">Přidat soubor</button>
                         </div>
                     </form>
                 </div>

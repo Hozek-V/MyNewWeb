@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <h2>Upravit soubor: {{ file.name }}</h2>
+        
+        <div class="col-12 mt-4">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}  <!-- Zobrazí formulář jako odstavce -->
+                <button type="submit" class="btn btn-primary">Uložit změny</button>
+            </form>
+        </div>
+        
+        <div class="col-12 mt-4">
+            <a href="{% url 'file_detail' file.id %}" class="btn btn-secondary">Zpět na detaily souboru</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

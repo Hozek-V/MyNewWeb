@@ -1,3 +1,4 @@
+import os
 from django.db import models
 
 class Member(models.Model):
@@ -24,3 +25,17 @@ class File(models.Model):
 
   def __str__(self):
     return self.name
+
+  # Metoda pro detekci přípony souboru
+  def get_stl_file_extension(self):
+    if self.stl_file:
+      return os.path.splitext(self.stl_file.name)[1].lower()  # Získáme příponu
+    return ""  # Pokud soubor není přítomen, vrátíme prázdný řetězec
+
+  # Metoda pro kontrolu, zda je soubor .stl
+  def is_stl(self):
+    return self.get_stl_file_extension() == '.stl'
+
+  # Metoda pro kontrolu, zda je soubor .3mf
+  def is_3mf(self):
+    return self.get_stl_file_extension() == '.3mf'

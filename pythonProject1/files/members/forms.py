@@ -19,3 +19,8 @@ class FileUploadForm(forms.ModelForm):
             raise forms.ValidationError("Pokud nahráváte GCODE soubor, musíte zadat název tiskárny.")
 
         return cleaned_data
+
+class FileForm(forms.ModelForm):
+    class Meta:
+        model = File
+        fields = ['name', 'stl_file', 'image', 'gcode_file', 'printer_name']
