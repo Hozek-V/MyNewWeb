@@ -20,9 +20,19 @@
             <!-- Můžete sem přidat logo jako obrázek -->
         </div>
         <div class="login">
-            {% block login %}
-            <!-- Zde se bude vykreslovat přihlášení -->
-            {% endblock %}
+            {% if user.is_authenticated %}
+                <span class="me-3">Vítejte, {{ user.username }}!</span>
+                <a href="{% url 'logout' %}?next={{ request.path }}" class="btn btn-outline-danger btn-sm">Odhlásit se</a>
+            {% else %}
+                <form method="post" action="{% url 'login' %}" class="d-flex">
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="{{ request.path }}" />
+                    <input type="text" name="username" placeholder="Uživatelské jméno" class="form-control form-control-sm me-2" style="width: 175px; height: 40px;" required>
+                    <input type="password" name="password" placeholder="Heslo" class="form-control form-control-sm me-2" style="width: 175px; height: 40px;" required>
+                    <button type="submit" class="btn btn-primary btn-sm" style="height: 40px;">Přihlásit se</button>
+                </form>
+                <a href="{% url 'signup' %}" class="btn btn-link btn-sm">Registrace</a>
+            {% endif %}
         </div>
     </header>
 

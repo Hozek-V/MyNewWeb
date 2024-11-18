@@ -2,8 +2,15 @@ import os
 from django.http import HttpResponse
 from django.template import loader
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Member, File
-from .forms import FileUploadForm, FileForm
+from django.contrib.auth.views import LoginView
+from .models import *
+from .forms import *
+
+
+class CustomLoginView(LoginView):
+    template_name = 'accounts/login.html'  # Váš HTML soubor
+    authentication_form = CustomLoginForm
+
 
 def members(request):
   mymembers = Member.objects.all().values()
