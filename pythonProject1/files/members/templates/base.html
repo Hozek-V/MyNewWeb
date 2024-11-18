@@ -19,10 +19,22 @@
             <h1>3D Tisk</h1>
             <!-- Můžete sem přidat logo jako obrázek -->
         </div>
+        {% if messages %}
+            <div class="container mt-3">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
         <div class="login">
             {% if user.is_authenticated %}
                 <span class="me-3">Vítejte, {{ user.username }}!</span>
-                <a href="{% url 'logout' %}?next={{ request.path }}" class="btn btn-outline-danger btn-sm">Odhlásit se</a>
+                <form method="post" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                <button type="submit" class="btn btn-outline-danger btn-sm">Odhlásit se</button>
+                </form>
             {% else %}
                 <form method="post" action="{% url 'login' %}" class="d-flex">
                     {% csrf_token %}
@@ -31,7 +43,7 @@
                     <input type="password" name="password" placeholder="Heslo" class="form-control form-control-sm me-2" style="width: 175px; height: 40px;" required>
                     <button type="submit" class="btn btn-primary btn-sm" style="height: 40px;">Přihlásit se</button>
                 </form>
-                <a href="{% url 'signup' %}" class="btn btn-link btn-sm">Registrace</a>
+                <a href="{% url 'register' %}" class="btn btn-link btn-sm">Registrace</a>
             {% endif %}
         </div>
     </header>

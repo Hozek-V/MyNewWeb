@@ -1,16 +1,24 @@
 import os
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.views import LoginView
+from django.contrib import messages
 from .models import *
 from .forms import *
 
 
-class CustomLoginView(LoginView):
-    template_name = 'accounts/login.html'  # Váš HTML soubor
-    authentication_form = CustomLoginForm
+def register(request):
+    if request.method == 'POST':
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Registrace byla úspěšná! Nyní se můžete přihlásit.')
+            return redirect('home')  # Přesměrování na přihlášení po úspěšné registraci
+    else:
+        form = RegistrationForm()
 
+    return render(request, 'registration.html', {'form': form})
 
 def members(request):
   mymembers = Member.objects.all().values()
