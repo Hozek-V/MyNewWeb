@@ -20,16 +20,12 @@ def register(request):
 
     return render(request, 'registration.html', {'form': form})
 
-def members(request):
-  mymembers = Member.objects.all().values()
-  template = loader.get_template('members.html')
-  context = {
-    'mymembers': mymembers,
-  }
-  return HttpResponse(template.render(context, request))
 
 def home(request):
   return render(request,'home.html')
+
+def about(request):
+  return render(request,'about.html')
 
 def files(request):
   files = File.objects.all()
@@ -59,22 +55,48 @@ def file_edit(request, id):
 
     if request.method == 'POST':
         form = FileForm(request.POST, request.FILES, instance=file)
-        if form.is_valid():
-            # Před uložením nových souborů smažeme staré soubory, pokud byly změněny
-            if 'stl_file' in request.FILES and file.stl_file:
-                # Smazání starého STL souboru
-                file.stl_file.delete(save=False)
-            if 'image' in request.FILES and file.image:
-                # Smazání starého obrázku
-                file.image.delete(save=False)
-            if 'gcode_file' in request.FILES and file.gcode_file:
-                # Smazání starého Gcode souboru
-                file.gcode_file.delete(save=False)
 
-            # Uložíme změny do databáze
+        if form.is_valid():
+            print("Formulář je validní")  # Log pro ladění
+            print("Nahraný soubor:", request.FILES.get('file'))  # Zobrazení nahraného souboru
+            """
+            # Před uložením nových souborů smažeme staré soubory, pokud byly změněny
+            if 'stl_file' in request.FILES:
+                if file.stl_file:
+                    try:
+                        print(f"Mažu starý STL soubor: {file.stl_file.name}")
+                        file.stl_file.delete(save=False)  # Mažeme starý soubor
+                    except Exception as e:
+                        print(f"Chyba při mazání starého STL souboru: {e}")
+                file.stl_file = request.FILES['stl_file']
+
+            if 'image' in request.FILES:
+                if file.image:
+                    try:
+                        print(f"Mažu starý obrázek: {file.image.name}")
+                        file.image.delete(save=False)  # Mažeme starý obrázek
+                    except Exception as e:
+                        print(f"Chyba při mazání starého obrázku: {e}")
+                file.image = request.FILES['image']
+
+            if 'gcode_file' in request.FILES:
+                if file.gcode_file:
+                    try:
+                        print(f"Mažu starý Gcode soubor: {file.gcode_file.name}")
+                        file.gcode_file.delete(save=False)  # Mažeme starý Gcode soubor
+                    except Exception as e:
+                        print(f"Chyba při mazání starého Gcode souboru: {e}")
+                file.gcode_file = request.FILES['gcode_file']
+            """
+            # Uložení změn do databáze
             form.save()
 
             return redirect('file_detail', id=file.id)  # Po úspěšné editaci přesměrujeme na detail souboru
+
+        else:
+            print("Formulář není validní")  # Log pro ladění
+            print("Chyby ve formuláři:", form.errors)  # Výpis chyb formuláře
+
     else:
         # Pokud je požadavek GET, zobrazíme formulář s aktuálními daty
         form = FileForm(instance=file)
