@@ -1,12 +1,29 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 import os
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.views import LoginView
 from django.contrib import messages
+from django.urls import reverse
 from .models import *
 from .forms import *
 
+
+def login_required_with_message(view_func):
+    """
+    Vlastní dekorátor pro přidání zprávy při neúspěšném pokusu o přístup na chráněnou stránku,
+    pokud není uživatel přihlášený.
+    """
+    def _wrapped_view(request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            print(request.META.get('HTTP_REFERER', '/'))
+            # Přidáme vlastní alert message
+            messages.info(request, 'Pro přístup k této stránce se musíte přihlásit.')
+            return redirect(request.META.get('HTTP_REFERER', '/'))
+        return view_func(request, *args, **kwargs)
+
+    return _wrapped_view
 
 def register(request):
     if request.method == 'POST':
@@ -31,7 +48,7 @@ def files(request):
   files = File.objects.all()
   return render(request, 'files.html', {'files': files})
 
-
+@login_required_with_message
 def upload_file(request):
   if request.method == 'POST':
     form = FileUploadForm(request.POST, request.FILES)
@@ -48,7 +65,7 @@ def file_detail(request, id):
   file = get_object_or_404(File, id=id)
   return render(request, 'file_detail.html', {'file': file})
 
-
+@login_required_with_message
 def file_edit(request, id):
     # Načteme soubor podle ID
     file = get_object_or_404(File, id=id)
@@ -103,7 +120,7 @@ def file_edit(request, id):
 
     return render(request, 'file_edit.html', {'form': form, 'file': file})
 
-
+@login_required_with_message
 def file_delete(request, id):
   # Načteme soubor podle ID
   file = get_object_or_404(File, id=id)
